@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+<!--if the user is logged in, they'll be able to access the vote page-->
+{% if current_user.is_authenticated %}
+  <button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button>
+
+<!-- This is what the user sees before logging in -->
+{% else %}
+<h2>Welcome to our Online Voting System</h2>
+<p>Please Login or Register to Vote</p>
+
+<button><a class="" href="{{ url_for('login') }}">Log In</a></button>
+<br>
+<br>
+<button><a class="" href="{{ url_for('register') }}">Register</a></button>
+<br>
+<br>
+<a href="{{url_for('cartref') }}"><p>Mae'r wefan hon hefyd ar gael yn y Gymraeg.</p></a>
+{% endif %}
+{% endblock content %}

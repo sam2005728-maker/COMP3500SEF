@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<p>Almost there! Download Google Authenticator on your phone to scan the QR Code</p>
+<img src="{{ url_for('qrcode') }}" alt="">
+<p>When you're ready, click <a href="{{ url_for('login') }}"> HERE </a>to log in</p>
+
+{% endblock content %}
