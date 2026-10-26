@@ -20,7 +20,7 @@ from sqlalchemy import engine
 import pyqrcode
 import onetimepass
 from io import BytesIO
-from werkzeug import abort
+from flask import abort
 
 @app.before_request
 def make_session_permanent():
