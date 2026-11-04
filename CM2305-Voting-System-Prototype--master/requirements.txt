@@ -73,3 +73,5 @@ WTForms>=3.1.2
 yarg==0.1.9
 gunicorn
 pymysql
+email-validator
+
