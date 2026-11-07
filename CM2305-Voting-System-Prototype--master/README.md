@@ -1,18 +1,3 @@
-[Group 16 - Secure Online Voting System
-](https://github.com/sam2005728-maker/COMP3500SEF
-Download Python 3.12, then install package by
-
-
-
-
-
-Sam:
-Update prototype version:
-(Old) Prototype of our Election Management and Voting Systems: https://githsub.com/ku5-ku5/CM2305-Voting-System-Prototype-
-
-(New)
-https://github.com/sam2005728-maker/COMP3500SEF
-//
 Download Python 3.12, then install package by
 
 cd to Admin_Microservice run:
@@ -88,5 +73,3 @@ Start the website:
 cd to Admin_Microservice and run: python wsgi.py
 cd to Voting_System and run:
 python run.py
-//
-)
