@@ -108,7 +108,11 @@ def add_candidate():
             db.session.commit()
             flash("Student Union Cabinet added successfully!", "success")
             return redirect(url_for('add_candidate'))
-    cabinets = PoliticalParty.query.all()
+        cabinets = sorted(
+        PoliticalParty.query.all(),
+        key=lambda p: (1 if 'abstain' in p.Name.lower() else 0, p.Name)
+    )
+
     return render_template("add_candidate.html", title="Add Student Union Cabinet", cabinets=cabinets)
 
 @app.route("/delete_candidate/<uid>", methods=['POST'])
