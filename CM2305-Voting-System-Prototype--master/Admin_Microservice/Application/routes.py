@@ -1,3 +1,5 @@
+import io
+import base64
 import os
 import uuid
 import hashlib
@@ -97,7 +99,44 @@ def logout():
 @app.route("/results", methods=['GET', 'POST'])
 @login_required
 def results():
-    return render_template("results.html", title="Election Results", url="/../static/images/results_plot.png")
+    cabinets = sorted(
+        PoliticalParty.query.all(),
+        key=lambda p: (1 if 'abstain' in p.Name.lower() else 0, p.Name)
+    )
+
+    connection = db.engine.raw_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT PoliticalPartyID, COUNT(*) FROM vote GROUP BY PoliticalPartyID")
+    vote_counts = dict(cursor.fetchall())
+    cursor.close()
+    connection.close()
+
+    names = [c.Name for c in cabinets]
+    counts = [vote_counts.get(c.UId, 0) for c in cabinets]
+    results_data = list(zip(names, counts))
+
+    plt.figure(figsize=(8, 4.5))
+    bars = plt.bar(names, counts, color=['#4CAF50', '#2196F3', '#FF9800', '#9C27B0'])
+    plt.title('Student Union Election Live Results', fontsize=14, fontweight='bold')
+    plt.xlabel('Student Union Cabinets', fontsize=11)
+    plt.ylabel('Number of Votes', fontsize=11)
+    plt.xticks(rotation=15, ha='right')
+    plt.grid(axis='y', linestyle='--', alpha=0.5)
+
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2.0, yval + 0.05, int(yval), ha='center', va='bottom', fontweight='bold')
+
+    plt.tight_layout()
+
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.close()
+    plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return render_template("results.html", title="Election Results", plot_url=plot_url, results_data=results_data)
+
 
 @app.route("/add_candidate", methods=['GET', 'POST'])
 @login_required
