@@ -107,6 +107,17 @@ def add_candidate():
             db.session.add(new_cabinet)
             db.session.commit()
             flash("Student Union Cabinet added successfully!", "success")
-            return redirect(url_for('index'))
-    return render_template("add_candidate.html", title="Add Student Union Cabinet")
+            return redirect(url_for('add_candidate'))
+    cabinets = PoliticalParty.query.all()
+    return render_template("add_candidate.html", title="Add Student Union Cabinet", cabinets=cabinets)
+
+@app.route("/delete_candidate/<uid>", methods=['POST'])
+@login_required
+def delete_candidate(uid):
+    cabinet = PoliticalParty.query.get(uid)
+    if cabinet:
+        db.session.delete(cabinet)
+        db.session.commit()
+        flash("Cabinet deleted!", "success")
+    return redirect(url_for('add_candidate'))
 
