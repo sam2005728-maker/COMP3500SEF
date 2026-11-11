@@ -1,23 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-<legend>Add Candidates: </legend>
-<form action="" method="POST">
-  {{ form.csrf_token }}
-  <div>
-    {{ form.title.label }} {{ form.title }}
-  </div>
-  <div>
-    {{ form.name.label }} {{ form.name }}
-  </div>
-
-  <div>
-    {{ form.party.label }} {{ form.party }}
-  </div>
-
-  <div>
-    {{ form.submit() }}
-  </div>
+<legend>Add Student Union Cabinet</legend>
+<form method="POST" action="">
+    <div>
+        <label for="cabinet_name">Cabinet Name (e.g. Cabinet 3: Unity):</label>
+        <input type="text" id="cabinet_name" name="cabinet_name" required>
+    </div>
+    <br>
+    <div>
+        <button type="submit">Add Cabinet</button>
+    </div>
 </form>
 <br>
-<button type="button" name="button"><a href="{{url_for('index')}}">Click Here if you have finished adding your candidates</a></button>
+<h4>Current Student Union Cabinets:</h4>
+<ul>
+    {% for cabinet in cabinets %}
+        <li>{{ cabinet.Name }}</li>
+    {% endfor %}
+</ul>
+<br>
+<a href="{{ url_for('index') }}">Back to Home</a>
 {% endblock content %}
