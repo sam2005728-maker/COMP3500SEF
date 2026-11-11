@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from Application import app, db
 from flask_login import login_user, current_user, logout_user, login_required
 from Application.forms import Officials_Registration, loginForm, CreateElectionForm
-from Application.models import Official, Election, Candidates
+from Application.models import Official, Election, Candidates, PoliticalParty
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
