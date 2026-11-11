@@ -32,3 +32,9 @@ class Election(db.Model, UserMixin):
 
 class Candidates(db.Model, UserMixin):
     title = db.Column(db.String(60), primary_key=True)
+
+class PoliticalParty(db.Model):
+    __tablename__ = 'political_party'
+    UId = db.Column(db.String(38), primary_key=True)
+    Name = db.Column(db.String(255), nullable=False)
+
