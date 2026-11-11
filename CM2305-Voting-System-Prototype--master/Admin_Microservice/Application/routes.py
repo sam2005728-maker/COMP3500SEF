@@ -12,6 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+from datetime import datetime
 
 @app.route("/")
 @app.route("/home")
@@ -54,7 +55,24 @@ def register():
 def create_election():
     form = CreateElectionForm()
     if form.validate_on_submit():
-        new_election = Election(title=form.title.data, election_date=form.election_date.data, start_time=form.start_time.data, end_time=form.end_time.data)
+        date_str = str(form.election_date.data)
+        
+        start_str = str(form.start_time.data).strip()
+        if ":" not in start_str:
+            start_str = f"{int(start_str):02d}:00"
+            
+        end_str = str(form.end_time.data).strip()
+        if ":" not in end_str:
+            end_str = f"{int(end_str):02d}:00"
+
+        start_dt = datetime.strptime(f"{date_str} {start_str}", "%Y-%m-%d %H:%M")
+        end_dt = datetime.strptime(f"{date_str} {end_str}", "%Y-%m-%d %H:%M")
+
+        new_election = Election(
+            Name=form.title.data,
+            StartDate=start_dt,
+            EndDate=end_dt
+        )
         db.session.add(new_election)
         db.session.commit()
         flash("Successfully Created Election!", "success")
@@ -65,9 +83,10 @@ def create_election():
 def view_election():
     connection = db.engine.raw_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM election")
+    cursor.execute("SELECT * FROM Election")
     data = cursor.fetchall()
     return render_template('view_election.html', title='View Election', data=data)
+
 
 @app.route("/logout")
 def logout():
