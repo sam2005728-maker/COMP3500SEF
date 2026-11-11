@@ -67,8 +67,11 @@ def vote():
     if current_user.check_vote_eligibility() & current_user.check_has_voted():
         form = SubmitVoteForm()
         #generates a form based on the political parties in the political party table
-        form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
-        parties = PoliticalParty.query.all()
+        parties = sorted(
+            PoliticalParty.query.all(),
+            key=lambda p: (1 if 'abstain' in p.Name.lower() else 0, p.Name)
+        )
+        form.chosenParty.choices = [(p.UId, p.Name) for p in parties]
         if request.method == 'POST':
             timestamp = datetime.datetime.now()
             #creates vote object with the users choice of political party
