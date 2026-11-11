@@ -52,6 +52,7 @@ def register():
     return render_template('officials_register.html', title="Register as an Official", form=form)
 
 @app.route("/create_election", methods=['GET', 'POST'])
+@login_required
 def create_election():
     form = CreateElectionForm()
     if form.validate_on_submit():
@@ -80,6 +81,7 @@ def create_election():
     return render_template("create_election.html", title="Create Election", form=form)
 
 @app.route('/view_election')
+@login_required
 def view_election():
     connection = db.engine.raw_connection()
     cursor = connection.cursor()
@@ -87,13 +89,13 @@ def view_election():
     data = cursor.fetchall()
     return render_template('view_election.html', title='View Election', data=data)
 
-
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 @app.route("/results", methods=['GET', 'POST'])
+@login_required
 def results():
     return render_template("results.html", title="Election Results", url="/../static/images/results_plot.png")
 
@@ -108,7 +110,8 @@ def add_candidate():
             db.session.commit()
             flash("Student Union Cabinet added successfully!", "success")
             return redirect(url_for('add_candidate'))
-        cabinets = sorted(
+
+    cabinets = sorted(
         PoliticalParty.query.all(),
         key=lambda p: (1 if 'abstain' in p.Name.lower() else 0, p.Name)
     )
@@ -124,4 +127,3 @@ def delete_candidate(uid):
         db.session.commit()
         flash("Cabinet deleted!", "success")
     return redirect(url_for('add_candidate'))
-
