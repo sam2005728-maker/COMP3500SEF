@@ -6,8 +6,15 @@
 	<legend> Create Election: </legend>
 	<form action="" method="POST">
 		{{ form.csrf_token }}
+
+		{% for field, errors in form.errors.items() %}
+			{% for error in errors %}
+				<p style="color: red; font-weight: bold;">{{ field }}: {{ error }}</p>
+			{% endfor %}
+		{% endfor %}
+
 		<div>
-				{{ form.title.label }} {{ form.title }}
+			{{ form.title.label }} {{ form.title }}
 		</div>
 
 		<div>
