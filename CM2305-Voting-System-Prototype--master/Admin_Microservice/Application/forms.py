@@ -37,7 +37,7 @@ class CreateElectionForm(FlaskForm):
     submit = SubmitField('Confirm')
 
     def validate_title(self, title):
-    election_title = Election.query.filter_by(Name=title.data).first()
+        election_title = Election.query.filter_by(Name=title.data).first()
     if election_title:
-        raise ValidationError('This election title already exists. Please choose a different one.')
+            raise ValidationError('This election title already exists. Please choose a different one.')
 
