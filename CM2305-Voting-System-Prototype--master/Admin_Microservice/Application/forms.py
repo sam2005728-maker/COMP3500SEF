@@ -1,3 +1,4 @@
+import os
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, DateField, TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError
@@ -27,18 +28,14 @@ class loginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-
-
 class CreateElectionForm(FlaskForm):
     title = StringField('Title of the Eleciton', validators=[DataRequired()])
-    election_date = DateField('What Date will the election take place? (YYYY-MM-DD)',  format='%Y-%m-%d', validators=[DataRequired()])
-    start_time = TimeField('What time does polling start?', validators=[DataRequired()])
-    end_time = TimeField('What time does polling end?', validators=[DataRequired()])
+    election_date = DateField('What Date will the election take place? (YYYY-MM-DD)', format='%Y-%m-%d', validators=[DataRequired()])
+    start_time = TimeField('What time does polling start? (HH:MM)', validators=[DataRequired()])
+    end_time = TimeField('What time does polling end? (HH:MM)', validators=[DataRequired()])
     submit = SubmitField('Confirm')
 
     def validate_title(self, title):
         election_title = Election.query.filter_by(Name=title.data).first()
         if election_title:
             raise ValidationError('This election title already exists. Please choose a different one.')
-
-
