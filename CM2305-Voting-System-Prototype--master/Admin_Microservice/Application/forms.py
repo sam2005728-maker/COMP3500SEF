@@ -9,12 +9,18 @@ class Officials_Registration(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Regexp('^.{6,20}$', message='Your password needs to be longer than 6 characters')])
     confirm_password = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+    invite_code = PasswordField('Admin Secret Code', validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
         mail = Official.query.filter_by(Email=email.data).first()
         if mail:
             raise ValidationError('This email is already being used.')
+
+    def validate_invite_code(self, invite_code):
+        expected_code = os.environ.get('ADMIN_INVITE_CODE', '123gpa444')
+        if invite_code.data != expected_code:
+            raise ValidationError('Invalid Admin Secret Code. Registration denied.')
 
 class loginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
