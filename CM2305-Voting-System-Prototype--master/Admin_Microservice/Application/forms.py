@@ -12,7 +12,7 @@ class Officials_Registration(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        mail = Official.query.filter_by(email=email.data).first()
+        mail = Official.query.filter_by(Email=email.data).first()
         if mail:
             raise ValidationError('This email is already being used.')
 
