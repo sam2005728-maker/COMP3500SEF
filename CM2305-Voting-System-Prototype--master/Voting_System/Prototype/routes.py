@@ -221,3 +221,7 @@ def wedipleidleisio():
 @app.route("/diolch", methods=['GET', 'POST'])
 def diolch():
     return render_template('diolch.html', title="Diolch am Bleidleisio!")
+
+@app.context_processor
+def inject_admin_url():
+    return dict(admin_url=os.environ.get('ADMIN_URL', 'https://comp3500sef-1-admin.onrender.com/'))
