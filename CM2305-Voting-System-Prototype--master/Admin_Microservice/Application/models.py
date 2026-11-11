@@ -38,3 +38,4 @@ class PoliticalParty(db.Model):
     UId = db.Column(db.String(38), primary_key=True)
     Name = db.Column(db.String(255), nullable=False)
 
+
