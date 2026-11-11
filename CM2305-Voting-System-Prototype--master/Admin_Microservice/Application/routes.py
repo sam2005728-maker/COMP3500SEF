@@ -96,3 +96,17 @@ def logout():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     return render_template("results.html", title="Election Results", url="/../static/images/results_plot.png")
+
+@app.route("/add_candidate", methods=['GET', 'POST'])
+@login_required
+def add_candidate():
+    if request.method == 'POST':
+        cabinet_name = request.form.get('cabinet_name')
+        if cabinet_name:
+            new_cabinet = PoliticalParty(UId=str(uuid.uuid4()), Name=cabinet_name)
+            db.session.add(new_cabinet)
+            db.session.commit()
+            flash("Student Union Cabinet added successfully!", "success")
+            return redirect(url_for('index'))
+    return render_template("add_candidate.html", title="Add Student Union Cabinet")
+
