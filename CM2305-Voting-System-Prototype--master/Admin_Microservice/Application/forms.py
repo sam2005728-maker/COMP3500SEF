@@ -30,9 +30,9 @@ class loginForm(FlaskForm):
 
 class CreateElectionForm(FlaskForm):
     title = StringField('Title of the Eleciton', validators=[DataRequired()])
-    election_date = DateField('What Date will the election take place? (YYYY-MM-DD)', format='%Y-%m-%d', validators=[DataRequired()])
-    start_time = TimeField('What time does polling start? (HH:MM)', validators=[DataRequired()])
-    end_time = TimeField('What time does polling end? (HH:MM)', validators=[DataRequired()])
+    election_date = StringField('What Date will the election take place? (YYYY-MM-DD)', validators=[DataRequired()])
+    start_time = StringField('What time does polling start? (HH:MM)', validators=[DataRequired()])
+    end_time = StringField('What time does polling end? (HH:MM)', validators=[DataRequired()])
     submit = SubmitField('Confirm')
 
     def validate_title(self, title):
