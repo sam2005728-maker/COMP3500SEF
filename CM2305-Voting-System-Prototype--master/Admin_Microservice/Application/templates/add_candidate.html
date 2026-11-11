@@ -15,7 +15,14 @@
 <h4>Current Student Union Cabinets:</h4>
 <ul>
     {% for cabinet in cabinets %}
-        <li>{{ cabinet.Name }}</li>
+        <li style="margin-bottom: 8px;">
+            {{ cabinet.Name }}
+            <form method="POST" action="{{ url_for('delete_candidate', uid=cabinet.UId) }}" style="display:inline; margin-left: 10px;">
+                <button type="submit" style="color: red; font-size: 12px;">Delete</button>
+            </form>
+        </li>
+    {% else %}
+        <li>No cabinets added yet.</li>
     {% endfor %}
 </ul>
 <br>
