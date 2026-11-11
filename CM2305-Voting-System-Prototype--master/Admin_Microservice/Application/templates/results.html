@@ -1,6 +1,32 @@
 {% extends "layout.html" %}
 {% block content %}
-	<h2> Election Results: </h2>
-  	<!-- <img src={{ url }} alt="Chart" height="562" width="750"> -->
-		<a href="{{ url_for('index')}}">Back to Home</a>
+<h2>Election Results:</h2>
+
+{% if results_data %}
+    <table border="1" cellpadding="8" cellspacing="0" style="background-color: white; margin-bottom: 20px; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>Student Union Cabinet</th>
+                <th>Total Votes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, count in results_data %}
+            <tr>
+                <td>{{ name }}</td>
+                <td style="text-align: center; font-weight: bold;">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div>
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Election Results Chart" style="max-width: 100%; border: 1px solid #ccc; background: white; padding: 10px;">
+    </div>
+{% else %}
+    <p>No candidates or votes found yet.</p>
+{% endif %}
+
+<br>
+<a href="{{ url_for('index') }}">Back to Home</a>
 {% endblock content %}
